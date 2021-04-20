@@ -8,18 +8,11 @@
 
 <script>
 import Starships from "@/components/Starships";
-import {mapActions} from 'vuex';
 
 export default {
   name: 'App',
   components: {
     Starships,
   },
-  methods: {
-    ...mapActions(["fetchStarshipData"])
-  },
-  created() {
-    this.fetchStarshipData();
-  }
 }
 </script>
