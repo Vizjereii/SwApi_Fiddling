@@ -1,16 +1,15 @@
 ﻿import axios from 'axios';
 
-const timePeriodToHoursTable = {
-    hour: 1,
-    day: 24,
-    week: 168,
-    month: 730,
-    year: 8760
-}
-
 export function parseConsumablesToHours(consumablesString) {
     if (consumablesString === 'unknown') return 'unknown';
-    
+
+    const timePeriodToHoursTable = {
+        hour: 1,
+        day: 24,
+        week: 168,
+        month: 730,
+        year: 8760
+    }
     const pattern = /(\d+)\s([^s\W]+)/;
     const match = consumablesString.match(pattern);
     return match[1] * timePeriodToHoursTable[match[2]];    

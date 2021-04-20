@@ -42,6 +42,10 @@ export default new Vuex.Store({
                     resupplyNum: Number.isNaN(resupplyCalc) ? 'unknown' : resupplyCalc
                 })
             }
+            shapedData.sort((a, b) => {
+                if (typeof b.resupplyNum === "string") return -1;
+                return b.resupplyNum - a.resupplyNum
+            })
             return shapedData;
         }
     },
