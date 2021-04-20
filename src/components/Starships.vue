@@ -18,6 +18,14 @@
           hide-default-footer
           class="elevation-1"></v-data-table>
     </v-card>
+    <v-snackbar v-model="apiFetchException">
+      {{ apiFetchExceptionMessage }}
+      <template v-slot:action="{ attrs }">
+        <v-btn color="red" text v-bind="attrs" @click="apiFetchException = false">
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
   </v-row>
 </template>
 
@@ -44,6 +52,8 @@ export default {
         {text: 'MGLT per hour:', sortable: false, value: 'MGLTperHour'},
         {text: 'Required number of resupplies for given distance:', sortable: false, value: 'resupplyNum'},
       ],
+      apiFetchException: false,
+      apiFetchExceptionMessage: 'Request to swapi.dev failed! Please try again later.',
     }
   },
   computed: {
@@ -71,7 +81,7 @@ export default {
     fetchStarshipData() {
       fetchPaginatedDataRecursive("https://swapi.dev/api/starships/", "next", [])
           .then(response => this.starshipsData = response)
-          .catch(exception => console.error(exception));
+          .catch(() => this.apiFetchException = true);
     }
   },
   created() {
@@ -79,7 +89,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-
-</style>
