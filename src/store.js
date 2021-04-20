@@ -1,6 +1,6 @@
 ﻿import Vue from "vue";
 import Vuex from "vuex";
-import {fetchPaginatedDataRecursive} from '@/SwApiHelpers'
+import {fetchPaginatedDataRecursive, parseConsumablesToHours} from '@/SwApiHelpers'
 
 Vue.use(Vuex);
 
@@ -26,6 +26,24 @@ export default new Vuex.Store({
             state.starshipFetchInProgress = false;
             state.starshipFetchError = true;
         },
+    },
+    getters: {
+        getShapedStarshipData: state => distanceParam => {
+            const shapedData = [];
+                        
+            for (const ship of state.starships) {
+                const consumablesInHours = parseConsumablesToHours(ship.consumables);
+                const resupplyCalc = Math.floor((distanceParam / ship.MGLT) / consumablesInHours);                
+                shapedData.push({
+                    name: ship.name,
+                    model: ship.model,
+                    consumablesPeriod: ship.consumables,
+                    MGLTperHour: ship.MGLT,
+                    resupplyNum: Number.isNaN(resupplyCalc) ? 'unknown' : resupplyCalc
+                })
+            }
+            return shapedData;
+        }
     },
     actions: {
         fetchStarshipData({commit}) {
