@@ -1,6 +1,6 @@
 ﻿import Vue from "vue";
 import Vuex from "vuex";
-import axios from "axios";
+import {fetchPaginatedDataRecursive} from '@/SwApiHelpers'
 
 Vue.use(Vuex);
 
@@ -29,11 +29,11 @@ export default new Vuex.Store({
     },
     actions: {
         fetchStarshipData({commit}) {
-            commit("fetchStarshipStart");            
-            return axios.get("https://swapi.dev/api/starships/")
+            commit("fetchStarshipStart");
+            
+            fetchPaginatedDataRecursive("https://swapi.dev/api/starships/", "next", [])
                 .then(response => {
-                    commit("fetchStarshipSuccess", response.data);
-                    console.log(response.data);
+                    commit("fetchStarshipSuccess", response);
                 })
                 .catch(exception => commit("fetchStarshipError", exception));
         }
