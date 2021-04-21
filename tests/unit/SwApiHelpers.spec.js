@@ -35,4 +35,17 @@ describe('Api helper functions', () => {
                 expect(data).toEqual([1,2,3,4]);
             })
     })
+    
+    it.each([
+        ['540 years', 4730400],
+        ['0 years', 0],
+        ['', 'unknown'],
+        ['420 someWrongString', 'unknown'],
+        [{}, 'unknown'],
+        [undefined, 'unknown'],
+        ['unknown', 'unknown'],
+    ])('Parses consumables string correctly with any input', (stringInput, expectedResult) => {
+        const result = parseConsumablesToHours(stringInput);
+        expect(result).toBe(expectedResult);
+    })
 })

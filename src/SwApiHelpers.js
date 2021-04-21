@@ -1,7 +1,7 @@
 ﻿import axios from 'axios';
 
 export function parseConsumablesToHours(consumablesString) {
-    if (consumablesString === 'unknown') return 'unknown';
+    if (typeof consumablesString !== 'string' || consumablesString === 'unknown') return 'unknown';
 
     const timePeriodToHoursTable = {
         hour: 1,
