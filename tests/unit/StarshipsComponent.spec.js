@@ -9,12 +9,18 @@ Vue.use(Vuetify);
 
 describe('Starships component', () => {
     let wrapper;
-    const createComponent = ({distanceUserInput = 1000000, starshipsData = []} = {}) => {        
+    const createComponent = 
+        ({
+            distanceUserInput = 1000000, 
+            starshipsData = [], 
+            apiFetchException = false,
+        } = {}) => {        
         wrapper = shallowMount(Starships, {   
             data() {
                 return {
                     distanceUserInput,
-                    starshipsData
+                    starshipsData,
+                    apiFetchException
                 }
             }
         })
@@ -24,15 +30,19 @@ describe('Starships component', () => {
         wrapper.destroy()
     })
 
-    it('renders component', () => {
-        createComponent()
-        expect(wrapper.exists()).toBe(true)
-    })
-
     it('passes empty `items` prop to data table if there are no data', () => {
-        createComponent()
-
-        expect(wrapper.find('.starships-data-table').props('items')).toEqual([])
+        createComponent();
+        expect(wrapper.find('.starships-data-table').props('items')).toEqual([]);
+    })
+    
+    it('renders loading state for starships data table on initial load', () => {
+        createComponent();
+        expect(wrapper.find('.starships-data-table').props('loading')).toBe(true);
+    })
+    
+    it('renders snackbar with error info if fetching from api failed', () => {
+        createComponent({apiFetchException: true});
+        expect(wrapper.find('.starships-fetch-exception').exists()).toBe(true);
     })
 
     it.each([

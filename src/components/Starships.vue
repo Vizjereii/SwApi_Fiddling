@@ -19,7 +19,7 @@
           hide-default-footer
           class="elevation-1 starships-data-table"></v-data-table>
     </v-card>
-    <v-snackbar v-model="apiFetchException">
+    <v-snackbar v-model="apiFetchException" class="starships-fetch-exception">
       {{ apiFetchExceptionMessage }}
       <template v-slot:action="{ attrs }">
         <v-btn color="red" text v-bind="attrs" @click="apiFetchException = false">
