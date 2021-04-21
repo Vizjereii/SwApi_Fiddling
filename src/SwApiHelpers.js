@@ -11,8 +11,8 @@ export function parseConsumablesToHours(consumablesString) {
         year: 8760
     }
     const pattern = /(\d+)\s([^s\W]+)/;
-    const match = consumablesString.match(pattern);
-    return match[1] * timePeriodToHoursTable[match[2]];    
+    const match = consumablesString.match(pattern);    
+    return match ? match[1] * timePeriodToHoursTable[match[2]] : 'unknown';    
 }
 
 export function fetchPaginatedDataRecursive(dataUrl, nextPageTokenName, results) {
