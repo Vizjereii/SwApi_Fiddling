@@ -15,8 +15,9 @@
           :headers="starshipsTableHeaders"
           :items="getShapedStarshipData"
           :items-per-page=50
+          :loading="pageLoading"
           hide-default-footer
-          class="elevation-1"></v-data-table>
+          class="elevation-1 starships-data-table"></v-data-table>
     </v-card>
     <v-snackbar v-model="apiFetchException">
       {{ apiFetchExceptionMessage }}
@@ -36,6 +37,7 @@ export default {
   name: "Starships",
   data() {
     return {
+      pageLoading: true,
       starshipsData: [],
       distanceUserInput: 1000000,      
       distanceFieldRules: [
@@ -81,7 +83,8 @@ export default {
     fetchStarshipData() {
       fetchPaginatedDataRecursive("https://swapi.dev/api/starships/", "next", [])
           .then(response => this.starshipsData = response)
-          .catch(() => this.apiFetchException = true);
+          .catch(() => this.apiFetchException = true)
+          .finally(() => this.pageLoading = false);
     }
   },
   created() {
