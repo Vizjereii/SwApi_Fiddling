@@ -4,7 +4,7 @@ import {shallowMount} from '@vue/test-utils';
 import Starships from '@/components/Starships.vue';
 
 /* Can't use localVue here, have to use global Vue instance for vuetify registration, 
-more info can be found in vuetify issue #4068 and comments */
+more info can be found in vuetify issue https://github.com/vuetifyjs/vuetify/discussions/4068 and comments */
 Vue.use(Vuetify);
 
 describe('Starships component', () => {
